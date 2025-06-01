@@ -1,3 +1,5 @@
+// my-terraform-modules/node-group/main.tf
+
 resource "aws_eks_node_group" "this" {
   cluster_name    = var.cluster_name
   node_group_name = var.node_group_name
@@ -17,6 +19,4 @@ resource "aws_eks_node_group" "this" {
     Name        = var.node_group_name
     Environment = var.env
   }
-
-  depends_on = [aws_iam_role_policy_attachment.eks_worker_node]
 }

@@ -1,6 +1,8 @@
+// my-terraform-modules/eks/main.tf
+
 resource "aws_eks_cluster" "this" {
   name     = var.cluster_name
-  role_arn = aws_iam_role.eks_cluster_role.arn
+  role_arn = var.cluster_iam_role_arn
 
   vpc_config {
     subnet_ids = var.subnet_ids
@@ -12,8 +14,5 @@ resource "aws_eks_cluster" "this" {
     Environment = var.env
   }
 
-  # Ensure Terraform creates/attaches the policy before creating the cluster
-  depends_on = [
-    aws_iam_role_policy_attachment.eks
-  ]
+  # No in-module IAM references; role_arn comes from the IAM module
 }

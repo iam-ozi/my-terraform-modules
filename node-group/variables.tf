@@ -1,28 +1,51 @@
+// my-terraform-modules/node-group/variables.tf
+
 variable "cluster_name" {
+  description = "Name of the EKS cluster to attach this node group to"
+  type        = string
 }
+
 variable "node_group_name" {
+  description = "Name to give the EKS node group"
+  type        = string
 }
+
 variable "node_role_arn" {
+  description = "ARN of the IAM role for EKS worker nodes"
+  type        = string
 }
+
 variable "subnet_ids" {
-  type = list(string)
+  description = "List of subnet IDs where the node group will run"
+  type        = list(string)
 }
+
 variable "desired_size" {
-  default = 2
+  description = "Desired number of nodes in the group"
+  type        = number
 }
+
 variable "max_size" {
-  default = 3
+  description = "Maximum number of nodes in the group"
+  type        = number
 }
+
 variable "min_size" {
-  default = 1
+  description = "Minimum number of nodes in the group"
+  type        = number
 }
+
 variable "instance_types" {
-  type    = list(string)
-  default = ["t3.medium"]
+  description = "List of instance types for worker nodes"
+  type        = list(string)
 }
+
 variable "ami_type" {
-  default = "AL2_x86_64"
+  description = "AMI type (e.g., 'AL2_x86_64') for the worker nodes"
+  type        = string
 }
+
 variable "env" {
-  default = "dev"
+  description = "Environment tag to apply to this node group"
+  type        = string
 }

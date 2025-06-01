@@ -1,11 +1,8 @@
+// my-terraform-modules/eks/outputs.tf
+
 output "cluster_name" {
-  value = aws_eks_cluster.this.name
+  description = "Name of the created EKS cluster"
+  value       = aws_eks_cluster.this.name
 }
 
-output "cluster_endpoint" {
-  value = aws_eks_cluster.this.endpoint
-}
-
-output "cluster_ca_certificate" {
-  value = aws_eks_cluster.this.certificate_authority[0].data
-}
+# You could also add more outputs if needed, e.g. endpoint, cluster_arn, etc.
