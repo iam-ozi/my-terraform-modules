@@ -1,6 +1,6 @@
 resource "aws_eks_cluster" "this" {
   name     = var.cluster_name
-  role_arn = var.cluster_iam_role_arn
+  role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
     subnet_ids = var.subnet_ids
@@ -12,5 +12,8 @@ resource "aws_eks_cluster" "this" {
     Environment = var.env
   }
 
-  depends_on = [aws_iam_role_policy_attachment.eks]
+  # Ensure Terraform creates/attaches the policy before creating the cluster
+  depends_on = [
+    aws_iam_role_policy_attachment.eks
+  ]
 }
