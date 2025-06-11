@@ -2,9 +2,13 @@
 
 resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
-  tags = {
-    Name = var.vpc_name
-  }
+
+  tags = merge(
+    var.tags,
+    {
+      Name = var.vpc_name
+    }
+  )
 }
 
 resource "aws_subnet" "public" {
@@ -14,9 +18,14 @@ resource "aws_subnet" "public" {
   availability_zone       = var.azs[count.index]
   map_public_ip_on_launch = true
 
-  tags = {
-    Name = "${var.vpc_name}-public-${count.index}"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name                                      = "${var.vpc_name}-public-${count.index}"
+      "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+      "kubernetes.io/role/elb"                  = "1"
+    }
+  )
 }
 
 resource "aws_subnet" "private" {
@@ -25,7 +34,12 @@ resource "aws_subnet" "private" {
   cidr_block        = var.private_subnet_cidrs[count.index]
   availability_zone = var.azs[count.index]
 
-  tags = {
-    Name = "${var.vpc_name}-private-${count.index}"
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name                                        = "${var.vpc_name}-private-${count.index}"
+      "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+      "kubernetes.io/role/internal-elb"           = "1"
+    }
+  )
 }
