@@ -22,7 +22,6 @@ resource "aws_internet_gateway" "this" {
 ## Elastic IP for NAT ##
 resource "aws_eip" "nat" {
   count = var.create_nat_gateway ? 1 : 0
-  domain = "vpc"
 }
 
 ## NAT Gateway ##
